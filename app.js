@@ -5,7 +5,19 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongo = require('mongoskin');
-var db = mongo.db("mongodb://localhost:27017/nodetest2", {native_parser:true});
+
+var Mongolian = require('mongolian');
+var server, db;
+
+if(process.env.MONGOHQ_URL) {
+  db = new Mongolian(process.env.MONGOHQ_URL);
+} else {
+  server = new Mongolian;
+  //db = server.db('your_db_name');
+  db = mongo.db("mongodb://localhost:27017/nodetest2", {native_parser:true});
+}
+
+//var db = mongo.db("mongodb://localhost:27017/nodetest2", {native_parser:true});
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
